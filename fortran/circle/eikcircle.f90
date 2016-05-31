@@ -3,7 +3,7 @@
 program eikcircle
   implicit none
   real(kind=8),parameter::a=-1.,b=1.,c=-1.,d=1.
-  integer,parameter::N = 160
+  integer,parameter::N = 10
   real (kind=8) :: h, delt, dxp, dxm, dyp, dym, dx, dy, L, tol, error,eps, error1
   real (kind=8), dimension(N+1) :: x,y
   real (kind=8), dimension(N+1,N+1) :: u, unew, z
