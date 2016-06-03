@@ -28,9 +28,9 @@ contains
 
     implicit none
     real(kind = 8), external :: f
-    real(kind = 8), intent(in) :: u,v
+    real(kind = 8), intent(in) :: u,v,r
 
-    flax = 0.5*(f(u) + f(v)) - 1/r*(u-v)
+    flax = 0.5*(f(u) + f(v) - (1/r)*(v-u))
   end function flax
 
 end module flux
