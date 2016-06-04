@@ -30,4 +30,12 @@ contains
 
     fluxgod = max(f(max(u,0.)), f(min(v,0.)))
   end function fluxgod
+
+  !--- Lax Friedrich flux
+  real (kind = 8) function fluxlax(f,u,v,eps)
+    real (kind = 8), external :: f
+    real (kind = 8), intent(in) :: u,v,eps
+
+    fluxlax = 0.5*(f(u)+f(v) - 1/eps*(v-u))
+  end function fluxlax
 end module fun
