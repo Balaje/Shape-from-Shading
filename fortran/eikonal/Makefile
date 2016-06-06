@@ -27,4 +27,4 @@ god1.exe : $(OBJECTS2) $(MODULES)
 	gfortran $(FFLAGS) -c $<
 
 clean :
-	rm -f *.o *.mod *.exe
+	rm -f *.o *.mod *.exe *.txt

@@ -40,7 +40,7 @@ program god
   enddo
 
   ! Write data onto a file
-  open(unit = 1, file = "op.dat", status="unknown", action="write")
+  open(unit = 1, file = "convex.txt", status="unknown", action="write")
   do i=1,N-1
      write(unit = 1, fmt = *)x(i),unew(i)
   enddo
