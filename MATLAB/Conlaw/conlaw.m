@@ -12,7 +12,7 @@ format long
 N = 100;
 a = -5; b = 5;
 
-solver = 'm';
+solver = 'g';
 
 eps = 1;
 
@@ -21,7 +21,7 @@ h = (b-a)/N;
 %CFL Condition
 delt = eps*h;
 
-tf = 1;
+tf = 2;
 t0 = 0;
 
 M = fix((tf-t0)/delt);
@@ -51,17 +51,18 @@ for k = 1:M
                         
     
     plot(x,unew);
-    %hold on
+    hold on
     pause(0.01);
     
     u = unew;           
 end
 
+figure(2)
 plot(x,unew,'o-');
 legend('Approximate solution');
 title(strcat(solver,' Scheme'));
 xlabel('x');
-ylabel('u(x,t = 1)');
+ylabel(strcat('u(x,t = ',num2str(tf),')'));
 grid on
 
 
