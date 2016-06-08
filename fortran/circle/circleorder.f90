@@ -4,11 +4,11 @@
 program circleorder
   implicit none
 
-  integer, parameter :: q = 6
+  integer, parameter :: q = 9
   real (kind = 8), parameter :: a = -1., b = 1., c = -1., d = 1., tol = 1e-16
   real (kind = 8), dimension(q) :: h, error1
   real (kind = 8), dimension(q-1) :: order
-  real (kind = 8) :: error, dxp, dxm, dym, dyp, eps, L, dx, dy, delt
+  real (kind = 8) :: error, dxp, dxm, dym, dyp, eps, L, dx, dy, delt, minm
   integer :: N = 10, i,j,k,p
 
   real (kind = 8), dimension(:), allocatable :: x,y
@@ -17,8 +17,6 @@ program circleorder
 
   do p = 1,q
     h(p) = (b-a)/N
-
-    delt = 0.01*h(p)
 
     allocate(x(N+1))
     allocate(y(N+1))
@@ -53,32 +51,60 @@ program circleorder
     do while (error > tol)
       do j = 2,N
         do i = 2,N
-          if (inout(i,j) == 0) then
+           if (inout(i,j) == 0) then
+            minm = h(p)
             Dxp = (u(i+1,j)-u(i,j))/h(p)
             Dxm = (u(i-1,j)-u(i,j))/h(p)
             Dyp = (u(i,j+1)-u(i,j))/h(p)
             Dym = (u(i,j-1)-u(i,j))/h(p)
             if (inout(i,j+1) == 1) then
-                eps = sqrt(1- x(i)**2) - y(j);
+               eps = sqrt(1- x(i)**2) - y(j);
+               if(eps < minm) then
+                  minm = eps
+               endif
                 Dyp = (- u(i,j))/abs(eps);
 
             !BOTTOM NO
             elseif (inout(i,j-1) == 1) then
-                eps = y(j) + sqrt(1 - x(i)**2);
+               eps = y(j) + sqrt(1 - x(i)**2);
+               if(eps < minm) then
+                  minm = eps
+               endif
                 Dym = -(u(i,j))/abs(eps);
 
             !LEFT NO
             elseif (inout(i-1,j) == 1) then
-                eps = x(i) + sqrt(1 - y(j)**2);
+               eps = x(i) + sqrt(1 - y(j)**2);
+               if(eps < minm) then
+                  minm = eps
+               endif
                 Dxm = -(u(i,j))/abs(eps);
 
             !RIGHT NO
             elseif (inout(i+1,j) == 1) then
-                eps = - x(i) + sqrt(1 - y(j)**2);
+               eps = - x(i) + sqrt(1 - y(j)**2);
+               if(eps < minm) then
+                  minm = eps
+               endif
                 Dxp = (- u(i,j))/abs(eps);
-            endif
-            Dx = min(Dxp,Dxm,0.);
-            Dy = min(Dyp,Dym,0.);
+             endif
+
+             delt = 0.6*minm
+
+             Dx = Dxp
+             if(Dxm < Dx) then
+                Dx = Dxm
+             elseif(0 < Dx) then
+                Dx = 0.
+             endif
+
+             Dy = Dyp
+             if(Dym < Dy) then
+                Dy = Dym
+             elseif(0 < Dy) then
+                Dy = 0.
+             endif
+
             L = sqrt(Dx**2+Dy**2)-1.;
             unew(i,j) = u(i,j) - delt*L;
 
@@ -101,7 +127,7 @@ program circleorder
 
     error1(p) = maxval(abs(unew-uexact))
     print 11, N ,error1(p)
-11    format('In N =  ',i3,' error = ',se22.15)
+11    format('In N =  ',i6,' error = ',se22.15)
     N = N*2
 
 
