@@ -11,7 +11,7 @@ clc
 
 format long
 
-N = 50;
+N = 100;
 
 a = 0; b = 1;
 c = 0; d = 1;
@@ -45,8 +45,8 @@ for k = 1:M
     Dpy = (u(1,2)-u(1,1))/h;
     Dmy = (u(1,1))/h;
     
-    [mdx,Dux] = maxmod(Dpx,Dmx);
-    [mdy,Duy] = maxmod(Dpy,Dmy);
+    [~,Dux] = maxmod(Dpx,Dmx);
+    [~,Duy] = maxmod(Dpy,Dmy);
     
     du = Du(Dux,Duy);
     
@@ -70,8 +70,8 @@ for k = 1:M
         Dpy = (u(1,j+1)-u(1,j))/h;
         Dmy = (u(1,j)-u(1,j-1))/h;
     
-        [mdx,Dux] = maxmod(Dpx,Dmx);
-        [mdy,Duy] = maxmod(Dpy,Dmy);
+        [~,Dux] = maxmod(Dpx,Dmx);
+        [~,Duy] = maxmod(Dpy,Dmy);
     
         du = Du(Dux,Duy);
     
@@ -95,8 +95,8 @@ for k = 1:M
     Dpy = (-u(1,N-1))/h;
     Dmy = (u(1,N-1)-u(1,N-2))/h;
     
-    [mdx,Dux] = maxmod(Dpx,Dmx);
-    [mdy,Duy] = maxmod(Dpy,Dmy);
+    [~,Dux] = maxmod(Dpx,Dmx);
+    [~,Duy] = maxmod(Dpy,Dmy);
     
     du = Du(Dux,Duy);
     
@@ -121,8 +121,8 @@ for k = 1:M
             Dpy = (u(i,j+1)-u(i,j))/h;
             Dmy = (u(i,j)-u(i,j-1))/h;
     
-            [mdx,Dux] = maxmod(Dpx,Dmx);
-            [mdy,Duy] = maxmod(Dpy,Dmy);
+            [~,Dux] = maxmod(Dpx,Dmx);
+            [~,Duy] = maxmod(Dpy,Dmy);
     
             du = Du(Dux,Duy);
     
@@ -147,8 +147,8 @@ for k = 1:M
     Dpy = (u(N-1,2)-u(N-1,1))/h;
     Dmy = (u(N-1,1))/h;
     
-    [mdx,Dux] = maxmod(Dpx,Dmx);
-    [mdy,Duy] = maxmod(Dpy,Dmy);
+    [~,Dux] = maxmod(Dpx,Dmx);
+    [~,Duy] = maxmod(Dpy,Dmy);
     
     du = Du(Dux,Duy);
     
@@ -172,8 +172,8 @@ for k = 1:M
         Dpy = (u(N-1,j+1)-u(N-1,j))/h;
         Dmy = (u(N-1,j)-u(N-1,j-1))/h;
     
-        [mdx,Dux] = maxmod(Dpx,Dmx);
-        [mdy,Duy] = maxmod(Dpy,Dmy);
+        [~,Dux] = maxmod(Dpx,Dmx);
+        [~,Duy] = maxmod(Dpy,Dmy);
     
         du = Du(Dux,Duy);
         
@@ -196,8 +196,8 @@ for k = 1:M
     Dpy = (-u(N-1,N-1))/h;
     Dmy = (u(N-1,N-1)-u(N-1,N-2))/h;
     
-    [mdx,Dux] = maxmod(Dpx,Dmx);
-    [mdy,Duy] = maxmod(Dpy,Dmy);
+    [~,Dux] = maxmod(Dpx,Dmx);
+    [~,Duy] = maxmod(Dpy,Dmy);
     
     du = Du(Dux,Duy);
     
@@ -221,8 +221,8 @@ for k = 1:M
         Dpy = (u(i,2)-u(i,1))/h;
         Dmy = (u(i,1))/h;
         
-        [mdx,Dux] = maxmod(Dpx,Dmx);
-        [mdy,Duy] = maxmod(Dpy,Dmy);
+        [~,Dux] = maxmod(Dpx,Dmx);
+        [~,Duy] = maxmod(Dpy,Dmy);
         
         du = Du(Dux,Duy);
         
@@ -247,8 +247,8 @@ for k = 1:M
         Dpy = (-u(i,N-1))/h;
         Dmy = (u(i,N-1)-u(i,N-2))/h;
         
-        [mdx,Dux] = maxmod(Dpx,Dmx);
-        [mdy,Duy] = maxmod(Dpy,Dmy);
+        [~,Dux] = maxmod(Dpx,Dmx);
+        [~,Duy] = maxmod(Dpy,Dmy);
         
         du = Du(Dux,Duy);
         
