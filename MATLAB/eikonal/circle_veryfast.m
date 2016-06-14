@@ -18,7 +18,7 @@ c = -1;
 d = 1;
 
 % No of Divisions 
-N = 200;
+N = 100;
 
 % Space discretization
 h = (b-a)/N;
@@ -92,19 +92,21 @@ while error>tol
                 end
 %                 Dx = min([Dpx,Dmx,0]);
 %                 Dy = min([Dpy,Dmy,0]);
-                Dx = Dpx;
-                Dy = Dpy;
-                if(Dmx < Dpx)
-                    Dx = Dmx;
-                elseif(0 < Dpx)
-                    Dx = 0;
-                end
-                
-                if(Dmy < Dpy)
-                    Dy = Dmy;
-                elseif(0 < Dpy)
-                    Dy = 0;
-                end
+%                 Dx = Dpx;
+%                 Dy = Dpy;
+%                 if(Dmx < Dpx)
+%                     Dx = Dmx;
+%                 elseif(0 < Dpx)
+%                     Dx = 0;
+%                 end
+%                 
+%                 if(Dmy < Dpy)
+%                     Dy = Dmy;
+%                 elseif(0 < Dpy)
+%                     Dy = 0;
+%                 end
+                Dx = fluxfunction(-Dmx,Dpx,'m',h);
+                Dy = fluxfunction(-Dmy,Dpy,'m',h);
                 H = sqrt(Dx^2+Dy^2)-1;
                 
                 k = 0.7*k;
@@ -116,8 +118,8 @@ while error>tol
     error = max(max(abs(u1-u)));    
     u = u1;
     count = count+1;
-    %contour(x,y,u1);
-    %pause(0.1);
+    surf(x,y,u1);
+    pause(0.01);
 end
 toc
 profile viewer;

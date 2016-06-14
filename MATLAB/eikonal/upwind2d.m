@@ -10,8 +10,8 @@ clear
 close all
 format long
 
-Nx = 500;
-Ny = 500;
+Nx = 10;
+Ny = 10;
 
 a =-1; b = 1;
 c = -1; d = 1;
@@ -22,14 +22,19 @@ hy = (b-a)/Ny;
 x = a:hx:b;
 y = c:hy:d;
 
-delt = 0.1*min(hx,hy); % Monotonicity condition
+delt = min(hx,hy); % Monotonicity condition
 
 % Tolerance for steady state
 eps = 10^-5;
 error = 100;
 
 U = zeros(Nx+1,Ny+1);
-Unew = U;
+% for i=1:Nx+1
+%     for j=1:Ny+1
+%         U(i,j) = 
+%     end
+% end
+Unew = zeros(Nx+1,Ny+1);
 
 iterations = 0;
 tic
@@ -44,7 +49,7 @@ while error > eps
             Dx = max([0,Dxp,Dxm]);
             Dy = max([0,Dyp,Dym]);
             
-            H = sqrt(Dx^2+Dy^2)-F(x(i),y(j));
+            H = sqrt(Dx^2+Dy^2)-1;
             
             Unew(i,j) = U(i,j) - delt*H;
         end
@@ -52,8 +57,9 @@ while error > eps
     error = max(max(abs(Unew-U)));
     %error = 0;
     U = Unew;
-    %contour(y,x,Unew);
-    %pause(0.01);
+    surf(x,y,Unew);
+    axis([a,b,c,d,0,1]);
+    pause(0.01);
     iterations = iterations+1;
 end
 toc
