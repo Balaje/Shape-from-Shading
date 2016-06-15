@@ -9,8 +9,11 @@ close all
 
 format long
 
-Nx = 100;
-Ny = 100;
+Nx = 187;
+Ny = 187;
+
+A = imread('vase.png');
+gray = mat2gray(imresize(A,[Nx+1,Ny+1]));
 
 a = 0; b = 1;
 c = 0; d = 1;
@@ -27,20 +30,21 @@ u = zeros(Nx+1,Ny+1);
 unew = zeros(Nx+1,Ny+1);
 
 
-for i=1:Nx+1
-    for j=1:Ny+1
-        if(I(x(i),y(j)) ~= 1)
-            Q(i,j) = 1;
-            if(x(i) == 0.5 && y(j) == 0.5)
-                u(i,j) = 2;
-            else
-                u(i,j) = 1;
-            end
-        else
-            Q(i,j) = 0;
-        end
-    end
-end
+% for i=1:Nx+1
+%     for j=1:Ny+1
+%         if(abs(gray(i,j,1)-1) < 1e-12 )
+%             Q(i,j) = 1;
+% %             if(x(i) == 0.5 && y(j) == 0.5)
+% %                 u(i,j) = 2;
+% %             else
+% %                 u(i,j) = 1;
+% %             end
+%             u(i,j) = 1;
+%         else
+%             Q(i,j) = 1;
+%         end
+%     end
+% end
 
 delt = hx*hy/sqrt(hx^2+hy^2);
 
@@ -52,14 +56,14 @@ while error > tol
 
     for i = 2:Nx
         for j = 2:Ny
-            if(Q(i,j) == 0)
-                if(x(i) == 0.5 && y(j) == 0.5)
-                    unew(i,j) = 2;
-                else
-                    unew(i,j) = 1;
-                end
-                
-            else
+%             if(Q(i,j) == 0)
+% %                 if(x(i) == 0.5 && y(j) == 0.5)
+% %                     unew(i,j) = 2;
+% %                 else
+% %                     unew(i,j) = 1;
+% %                 end
+%                 unew(i,j) = 1;
+%             else
                 Dxp = (u(i,j)-u(i+1,j))/hx;
                 Dxm = (u(i,j)-u(i-1,j))/hx;
                 Dyp = (u(i,j)-u(i,j+1))/hy;
@@ -68,18 +72,21 @@ while error > tol
                 Dx = max([0,Dxp,Dxm]);
                 Dy = max([0,Dyp,Dym]);
             
-                so = sqrt(1/(I(x(i),y(j)))^2 -1 );
+                so = sqrt(1/(gray(i,j,1))^2 - 1 );
                 H = sqrt(Dx^2+Dy^2);
             
                 unew(i,j) = u(i,j) - delt*(H-so);
-            end 
+            %end 
         end
     end
     error = max(max(abs(unew-u)));
+    %mesh(x,y,unew);
+    %axis([a,b,c,d,0,1]);
+    %pause(0.01);
     u = unew;
     iterations = iterations + 1;
 end
 
 iterations
-surf(x,y,unew)
-
+mesh(x,y,unew)
+axis([a,b,c,d,0,1]);
