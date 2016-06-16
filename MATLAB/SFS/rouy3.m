@@ -12,7 +12,7 @@ format long
 Nx = 187;
 Ny = 187;
 
-A = imread('mozart1.png');
+A = imread('vase.png');
 gray = mat2gray(imresize(A,[Nx+1,Ny+1]));
 
 a = 0; b = 1;
