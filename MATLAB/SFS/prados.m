@@ -12,7 +12,7 @@ format long
 Nx = 187;
 Ny = 187;
 
-A = imread('abe.png');
+A = imread('vase.png');
 gray = mat2gray(imresize(A,[Nx+1,Ny+1]));
 
 a = 0; b = 1;
@@ -31,7 +31,7 @@ unew = zeros(Nx+1,Ny+1);
 delt = hx*hy/sqrt(hx^2+hy^2);
 
 error = 100;
-tol = 1e-12;
+tol = 1e-4;
 
 f = 1;
 
@@ -69,16 +69,27 @@ while error > tol
             if(abs(gray(i,j,1)) < 0.1)
                 unew(i,j) = 0;
             else
-                Dxp = (u(i,j)-u(i+1,j))/hx;
+                Dxp = -(u(i+1,j)-u(i,j))/hx;
                 Dxm = (u(i,j)-u(i-1,j))/hx;
-                Dyp = (u(i,j)-u(i,j+1))/hy;
+                Dyp = -(u(i,j+1)-u(i,j))/hy;
                 Dym = (u(i,j)-u(i,j-1))/hy;
-            
-                Dx = max([0,Dxp,Dxm]);
-                Dy = max([0,Dyp,Dym]);
-            
-                H = gray(i,j,1)*sqrt(f^2*(Dx^2+Dy^2)+(Dx*x(i)+Dy*y(j))^2 + ...
+                [Dx,idx] = max([0,Dxp,Dxm]);
+                [Dy,idy] = max([0,Dyp,Dym]);
+                if (idx == 2 && idy == 2)
+                    H = gray(i,j,1)*sqrt(f^2*(Dx^2+Dy^2)+(Dx*x(i+1)+Dy*y(j+1))^2 + ...
+                    f^2/(f^2+x(i+1)^2+y(j+1)^2)) - f/sqrt(f^2+x(i+1)^2+y(j+1)^2);
+                elseif (idx == 3 && idy == 2)
+                    H = gray(i,j,1)*sqrt(f^2*(Dx^2+Dy^2)+(Dx*x(i)+Dy*y(j+1))^2 + ...
+                    f^2/(f^2+x(i)^2+y(j+1)^2)) - f/sqrt(f^2+x(i)^2+y(j+1)^2);
+                elseif (idx == 2 && idy ==3)
+                    H = gray(i,j,1)*sqrt(f^2*(Dx^2+Dy^2)+(Dx*x(i+1)+Dy*y(j))^2 + ...
+                    f^2/(f^2+x(i+1)^2+y(j)^2)) - f/sqrt(f^2+x(i+1)^2+y(j)^2);
+                else
+                    H = gray(i,j,1)*sqrt(f^2*(Dx^2+Dy^2)+(Dx*x(i)+Dy*y(j))^2 + ...
                     f^2/(f^2+x(i)^2+y(j)^2)) - f/sqrt(f^2+x(i)^2+y(j)^2);
+                end
+            
+                
             
                 unew(i,j) = u(i,j) - delt*(H);
             end
@@ -146,10 +157,10 @@ while error > tol
         unew(Nx+1,j) = u(Nx+1,j) - delt*(H);  
     end    
     
-    error = max(max(abs(unew-u)));
-    %mesh(x,y,exp(unew));
-    %axis([a,b,c,d,0,1]);
-    %pause(0.01);
+    error = max(max(abs(unew-u)))
+%     mesh(x,y,exp(unew));
+%     axis([a,b,c,d,0,1]);
+%     pause(0.01);
     u = unew;
     iterations = iterations + 1;
 end
