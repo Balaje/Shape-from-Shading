@@ -30,7 +30,7 @@ program persp1
      enddo
   enddo
 
-  delt = h/sqrt(2.)
+  delt = 0.7013*h
   error = 100.
 
 !  do p = 1,1000
