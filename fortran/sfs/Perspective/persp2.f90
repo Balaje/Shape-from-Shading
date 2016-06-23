@@ -22,6 +22,8 @@ enddo
 open(unit = 1, file = "moz.txt")
 read(1, *) I
 
+print 13, maxval(I)
+13 format('maxval', se22.15)
 do k = 1,N+1
    do j = 1,N+1
       !I(j,k) = f/sqrt(x(j)**2+y(k)**2+f**2)/sqrt(f**2*((2*pi*cos(2*pi*x(j))*sin(2*pi*y(k)))**2+(2*pi*sin(2*pi*x(j))*cos(2*pi*y(k)))**2) + (2*pi*x(j)*cos(2*pi*x(j))*sin(2*pi*y(k)) + 2*pi*y(k)*sin(2*pi*x(j))*cos(2*pi*y(k)))**2 + (f**2/(x(j)**2+y(k)**2+f**2)))
@@ -205,7 +207,7 @@ do while (error> tol)
 
 
    error = maxval(abs(u-unew))
-   print 11, error
+  print 11, error
 11   format("error=", se22.15)
 
    u = unew
