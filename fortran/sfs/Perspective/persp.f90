@@ -61,12 +61,12 @@ program persp
            Ax = (/0.,Dxp,Dxm/)
            Ay = (/0.,Dyp,Dym/)
 
-           Dx = max(0.,-Dxp,Dxm)
-           Dy = max(0.,-Dyp,Dym)
+           Dx = max(0.,-I(j+1,k)*Dxp,I(j-1,k)*Dxm)
+           Dy = max(0.,-I(j,k+1)*Dyp,I(j,k-1)*Dym)
            Ix = maxloc((/0.,-Dxp,Dxm/),dim=1)
            Iy = maxloc((/0.,-Dyp,Dym/),dim=1)
 
-           L = I(j,k)*sqrt(f**2*(Dx**2+Dy**2) + (Ax(Ix)*x(j)+Ay(Iy)*y(k))**2 + f**2/(x(j)**2+y(k)**2+f**2)) - f/sqrt(x(j)**2+y(k)**2+f**2)
+           L = sqrt(f**2*(Dx**2+Dy**2) + I(j,k)**2*(Ax(Ix)*x(j)+Ay(Iy)*y(k))**2 + I(j,k)**2*f**2/(x(j)**2+y(k)**2+f**2)) - f/sqrt(x(j)**2+y(k)**2+f**2)
 
            unew(j,k) = u(j,k) - delt*L
            endif
