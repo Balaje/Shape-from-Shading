@@ -75,6 +75,8 @@ do while (error> tol)
       do j = 2,N
          if(I(j,k) == 0.) then
             unew(j,k) = (u(j-1,k)+u(j+1,k)+u(j,k-1)+u(j,k+1))/4
+         elseif(I(j,k) == 1.)then
+            unew(j,k) = 0.
          else
             Dxp = (u(j+1,k)-u(j,k))/h
             Dxm = (u(j,k)-u(j-1,k))/h

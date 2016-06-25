@@ -26,7 +26,7 @@ program persp
      do j = 1,N+1
         !I(j,k) = f/sqrt(x(j)**2+y(k)**2+f**2)/sqrt(f**2*((2*pi*cos(2*pi*x(j))*sin(2*pi*y(k)))**2+(2*pi*sin(2*pi*x(j))*cos(2*pi*y(k)))**2) + (2*pi*x(j)*cos(2*pi*x(j))*sin(2*pi*y(k)) + 2*pi*y(k)*sin(2*pi*x(j))*cos(2*pi*y(k)))**2 + (f**2/(x(j)**2+y(k)**2+f**2)))
         !I(j,k) = 1/sqrt(2.)
-        u(j,k) = 0
+        u(j,k) = -0.5*log(I(j,k)*f**2)
         unew(j,k) = 0
      enddo
   enddo
@@ -49,8 +49,10 @@ program persp
           ! elseif(abs(x(j)-0.75) < 1e-9 .and. abs(y(k)-0.25) < 1e-9) then
           !    unew(j,k) = -1.
            ! else
-           if(I(j,k) < 0.001) then
+           if(I(j,k) == 0.) then
               unew(j,k) = (u(j-1,k)+u(j+1,k)+u(j,k-1)+u(j,k+1))/4
+           elseif(I(j,k)==1.) then
+              unew(j,k) = 0.
            else
 
            Dxp = (u(j+1,k)-u(j,k))/h
