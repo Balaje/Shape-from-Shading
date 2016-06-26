@@ -19,7 +19,7 @@ do j = 1,N+1
    y(j) = c + (j-1)*h
 enddo
 
-open(unit = 1, file = "moz.txt")
+open(unit = 1, file = "thing2.txt")
 read(1, *) I
 
 ! Defining Parameters
@@ -58,7 +58,7 @@ do while (error> tol)
    unew(1,1) = u(1,1) - delt*L
 
    ! j = 1, k = N+1
-   Dxp = (u(2,N+1)-u(2,N+1))/h
+   Dxp = (u(2,N+1)-u(1,N+1))/h
    Dxm = 0.
    Dyp = 0.
    Dym = (u(1,N+1)-u(1,N))/h
