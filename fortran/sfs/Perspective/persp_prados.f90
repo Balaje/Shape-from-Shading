@@ -19,7 +19,7 @@ do j = 1,N+1
    y(j) = c + (j-1)*h
 enddo
 
-open(unit = 1, file = "moz1.txt")
+open(unit = 1, file = "moz.txt")
 read(1, *) I
 
 ! Defining Parameters
