@@ -11,7 +11,7 @@ real(kind = 8), dimension(Nx+1) :: x
 real(kind = 8), dimension(Ny+1) :: y
 real(kind = 8), dimension(3) :: Ax, Ay
 real(kind = 8) :: hx, hy, delt, error, Dxp, Dxm, Dyp, Dym, Dx, Dy, L, error1
-integer :: j,k,Ix,Iy,p
+integer :: j,k,Ix,Iy,p, iterations = 0
 
 hx = (b-a)/Nx
 hy = (d-c)/Ny
@@ -40,7 +40,7 @@ do k = 1,Ny+1
    enddo
 enddo
 
-delt = 0.5*min(hx,hy)
+delt = 0.9*min(hx,hy)
 error = 100.
 
 !  do p = 1,1000
@@ -217,10 +217,12 @@ do while (error> tol)
 
 
    error = maxval(abs(u-unew))
- print 11, error
-11   format("error=", se22.15)
+   print 11, error
+11 format("error=", se22.15)
 
-   u = unew
+ u = unew
+
+ iterations = iterations + 1
 enddo
 
 open(unit = 1,file = "op_neumannf.txt")
@@ -229,5 +231,8 @@ do j=1,Nx+1
       write(1,*) x(j), y(k),-exp(unew(j,k))
    enddo
 enddo
+
+print 12, iterations
+12 format("Total Iterations = ", i10)
 
 end program persp1
