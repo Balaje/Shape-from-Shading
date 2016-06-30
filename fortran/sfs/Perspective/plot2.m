@@ -10,4 +10,4 @@ surf(x,y,z2,'EdgeColor','none')
 colormap gray
 light('Position',[1 1 1],'Style','local')
 lighting gouraud
-axis([0.2,0.8,0.2,0.8,-1.8,-0.8])
+axis([0.1,0.9,0.1,0.9,-1.3,-1])
