@@ -18,10 +18,10 @@ h = (b-a)/N;
 
 x = (a:h:b)';
 
-delt = h;
+delt = 0.4*h;
 
 % Tolerance for convergence
-eps = 10^-4;
+eps = 10^-15;
 error = 100;
 
 u = (x.^2-1);
