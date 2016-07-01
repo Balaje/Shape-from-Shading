@@ -1,6 +1,9 @@
-! Program to implement the upwinded Rouy and Tourin Scheme to
-!    solve the perspective shape from shading model.
-
+! Program to implement the upwinded Godunov Type scheme to
+!    solve the perspective shape from shading model
+!      introduced by Prados and Faugeras
+!
+!
+! Authors : Balaje and Sanath Keshav
 program persp1
 implicit none
 
