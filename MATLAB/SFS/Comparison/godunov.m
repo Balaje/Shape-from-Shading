@@ -1,3 +1,12 @@
-function V = godunov(u,v,I1,I2,X)
-V = max(H(I1,max(u,0),X),H(I2,min(v,0),X));
-    %V = max(H(I1,max(u,0),X1),H(I2,min(v,0),X1));
+function [V,ind] = godunov(u,v)
+    V = max(abs(max(u,0)),abs(min(v,0)));
+    if(V == abs(u))
+        ind = 1;
+    elseif(V == abs(v));
+        ind = 2;
+    elseif(V == 0);
+        ind = 3;
+    end
+end
+
+
