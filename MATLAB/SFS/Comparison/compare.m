@@ -1,8 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Script to compare the solution plots of
-%       Upwinding vs No-upwinding
-%
-%   Functions : testdisc.m and testdisc_upw.m
+%   Script to compare the solution plots of        %
+%       Upwinding vs No-upwinding                  % 
+%   Functions : testdisc.m and testdisc_upw.m      %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clear

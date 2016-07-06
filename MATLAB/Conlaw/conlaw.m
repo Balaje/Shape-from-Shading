@@ -33,15 +33,15 @@ unew = zeros(N-1,1);
 for i=1:N-1
     x(i) = a + i*h;
     if(x(i) < 0)
-        u(i) = -1;
-    elseif(x(i) >= 0)
         u(i) = 1;
+    elseif(x(i) >= 0)
+        u(i) = 0;
     end
 end
 
 for k = 1:M
     unew(1) = u(1) - eps*(fluxfunction(u(1),u(2),solver,eps) - ...
-                            fluxfunction(-1,u(1),solver,eps));
+                            fluxfunction(1,u(1),solver,eps));
     for j = 2:N-2
         unew(j) = u(j) - eps*(fluxfunction(u(j),u(j+1),solver,eps) - ...
                             fluxfunction(u(j-1),u(j),solver,eps));
@@ -58,7 +58,7 @@ for k = 1:M
 end
 
 figure(2)
-plot(x,unew,'o-');
+plot(x,unew,'o');
 legend('Approximate solution');
 title(strcat(solver,' Scheme'));
 xlabel('x');
