@@ -8,7 +8,7 @@ program persp1
 implicit none
 
 integer, parameter :: Nx = 201, Ny = 201
-real(kind = 8), parameter :: a = 0., b = 1., c = 0., d = 1., tol = 1e-3, f = 1., pi = acos(-1.)
+real(kind = 8), parameter :: a = 0., b = 1., c = 0., d = 2., tol = 1e-4, f = 1., pi = acos(-1.)
 real(kind = 8), dimension(Nx-1,Ny-1) :: u, unew, I, exact, M, Q
 real(kind = 8), dimension(Nx-1) :: x
 real(kind = 8), dimension(Ny-1) :: y
@@ -27,7 +27,7 @@ do j = 1,Ny-1
    y(j) = c + (j)*hy
 enddo
 
-open(unit = 1, file = "blj.txt")
+open(unit = 1, file = "peaks.txt")
 read(1, *) I
 
 ! Defining Parameters
@@ -59,9 +59,9 @@ error = 100.
 do while (error> tol)
    !j = 1, k = 1
    Dxp = (u(2,1)-u(1,1))/hx
-   Dxm = 0.
+   Dxm = (u(1,1)-100)/hx;
    Dyp = (u(1,2)-u(1,1))/hy
-   Dym = 0.
+   Dym = (u(1,1)-100)/hy;
 
    Ax = (/0.,Dxp,Dxm/)
    Ay = (/0.,Dyp,Dym/)
@@ -76,15 +76,15 @@ do while (error> tol)
 
    ! j = 1, k = N+1
    Dxp = (u(2,Ny-1)-u(1,Ny-1))/hx
-   Dxm = (u(1,Ny-1)-1000)/hx
-   Dyp = 0.
+   Dxm = (u(1,Ny-1)-100)/hx
+   Dyp = (100-u(1,Ny-1))/hy
    Dym = (u(1,Ny-1)-u(1,Ny-2))/hy
 
    Ax = (/0.,Dxp,Dxm/)
    Ay = (/0.,Dyp,Dym/)
 
    Dx = max(0.,-M(2,Ny-1)*Dxp,M(1,Ny-1)*Dxm)
-   Dy = max(0.,-M(1,Ny-1)*Dyp,M(1,Ny-2)*Dym)
+   Dy = max(0.,-M(1,Ny-1)*Dyp,M(1,Ny-1)*Dym)
    Ix = maxloc((/0.,-Dxp,Dxm/),dim=1)
    Iy = maxloc((/0.,-Dyp,Dym/),dim=1)
 
@@ -106,8 +106,8 @@ do while (error> tol)
             Ax = (/0.,Dxp,Dxm/)
             Ay = (/0.,Dyp,Dym/)
 
-            Dx = max(0.,-M(j+1,k)*Dxp,M(j-1,k)*Dxm)
-            Dy = max(0.,-M(j,k+1)*Dyp,M(j,k-1)*Dym)
+            Dx = max(0.,-M(j+1,k)*Dxp,M(j,k)*Dxm)
+            Dy = max(0.,-M(j,k+1)*Dyp,M(j,k)*Dym)
             Ix = maxloc((/0.,-Dxp,Dxm/),dim=1)
             Iy = maxloc((/0.,-Dyp,Dym/),dim=1)
 
@@ -118,15 +118,15 @@ do while (error> tol)
    enddo
 
    ! j = N+1, k = 1
-   Dxp = 0.
+   Dxp = (100-u(Nx-1,1))/hx
    Dxm = (u(Nx-1,1)-u(Nx-2,1))/hx
    Dyp = (u(Nx-1,2)-u(Nx-1,1))/hy
-   Dym = 0.
+   Dym = (u(Nx-1,1)-100)/hy
 
    Ax = (/0.,Dxp,Dxm/)
    Ay = (/0.,Dyp,Dym/)
 
-   Dx = max(0.,-M(Nx-1,1)*Dxp,M(Nx-2,1)*Dxm)
+   Dx = max(0.,-M(Nx-1,1)*Dxp,M(Nx-1,1)*Dxm)
    Dy = max(0.,-M(Nx-1,2)*Dyp,M(Nx-1,1)*Dym)
    Ix = maxloc((/0.,-Dxp,Dxm/),dim=1)
    Iy = maxloc((/0.,-Dyp,Dym/),dim=1)
@@ -135,16 +135,16 @@ do while (error> tol)
    unew(Nx-1,1) = u(Nx-1,1) - delt*L
 
    ! j = N+1, k = N+1
-   Dxp = 0.
+   Dxp = (100-u(Nx-1,Ny-1))/hx
    Dxm = (u(Nx-1,Ny-1)-u(Nx-2,Ny-1))/hx
-   Dyp = 0.
+   Dyp = (100-u(Nx-1,Ny-1))/hy
    Dym = (u(Nx-1,Ny-1)-u(Nx-1,Ny-2))/hy
 
    Ax = (/0.,Dxp,Dxm/)
    Ay = (/0.,Dyp,Dym/)
 
-   Dx = max(0.,-M(Nx-1,Ny-1)*Dxp,M(Nx-2,Ny-1)*Dxm)
-   Dy = max(0.,-M(Nx-1,Ny-1)*Dyp,M(Nx-1,Ny-2)*Dym)
+   Dx = max(0.,-M(Nx-1,Ny-1)*Dxp,M(Nx-1,Ny-1)*Dxm)
+   Dy = max(0.,-M(Nx-1,Ny-1)*Dyp,M(Nx-1,Ny-1)*Dym)
    Ix = maxloc((/0.,-Dxp,Dxm/),dim=1)
    Iy = maxloc((/0.,-Dyp,Dym/),dim=1)
 
@@ -156,12 +156,12 @@ do while (error> tol)
       Dxp = (u(j+1,1)-u(j,1))/hx
       Dxm = (u(j,1)-u(j-1,1))/hx
       Dyp = (u(j,2)-u(j,1))/hy
-      Dym = 0.
+      Dym = (u(j,1)-100)/hy
 
       Ax = (/0.,Dxp,Dxm/)
       Ay = (/0.,Dyp,Dym/)
 
-      Dx = max(0.,-M(j+1,1)*Dxp,M(j-1,1)*Dxm)
+      Dx = max(0.,-M(j+1,1)*Dxp,M(j,1)*Dxm)
       Dy = max(0.,-M(j,2)*Dyp,M(j,1)*Dym)
       Ix = maxloc((/0.,-Dxp,Dxm/),dim=1)
       Iy = maxloc((/0.,-Dyp,Dym/),dim=1)
@@ -174,14 +174,14 @@ do while (error> tol)
    do j=2,Nx-2
       Dxp = (u(j+1,Ny-1)-u(j,Ny-1))/hx
       Dxm = (u(j,Ny-1)-u(j-1,Ny-1))/hx
-      Dyp = 0.
+      Dyp = (100-u(j,Ny-1))/hy
       Dym = (u(j,Ny-1)-u(j,Ny-2))/hy
 
       Ax = (/0.,Dxp,Dxm/)
       Ay = (/0.,Dyp,Dym/)
 
-      Dx = max(0.,-M(j+1,Ny-1)*Dxp,M(j-1,Ny-1)*Dxm)
-      Dy = max(0.,-M(j,Ny-1)*Dyp,M(j,Ny-2)*Dym)
+      Dx = max(0.,-M(j+1,Ny-1)*Dxp,M(j,Ny-1)*Dxm)
+      Dy = max(0.,-M(j,Ny-1)*Dyp,M(j,Ny-1)*Dym)
       Ix = maxloc((/0.,-Dxp,Dxm/),dim=1)
       Iy = maxloc((/0.,-Dyp,Dym/),dim=1)
 
@@ -192,7 +192,7 @@ do while (error> tol)
    !k = 2:N, j = 1
    do k = 2,Ny-2
       Dxp = (u(2,k)-u(1,k))/hx
-      Dxm = 0.
+      Dxm = (u(1,k)-100)/hx
       Dyp = (u(1,k+1)-u(1,k))/hy
       Dym = (u(1,k)-u(1,k-1))/hy
 
@@ -200,7 +200,7 @@ do while (error> tol)
       Ay = (/0.,Dyp,Dym/)
 
       Dx = max(0.,-M(2,k)*Dxp,M(1,k)*Dxm)
-      Dy = max(0.,-M(1,k+1)*Dyp,M(1,k-1)*Dym)
+      Dy = max(0.,-M(1,k+1)*Dyp,M(1,k)*Dym)
       Ix = maxloc((/0.,-Dxp,Dxm/),dim=1)
       Iy = maxloc((/0.,-Dyp,Dym/),dim=1)
 
@@ -210,7 +210,7 @@ do while (error> tol)
 
    !k=2:N, j = N+1
    do k=2,Nx-2
-      Dxp = 0.
+      Dxp = (100-u(Nx-1,k))/hx
       Dxm = (u(Nx-1,k)-u(Nx-2,k))/hx
       Dyp = (u(Nx-1,k+1)-u(Nx-1,k))/hy
       Dym = (u(Nx-1,k)-u(Nx-1,k-1))/hy
@@ -218,8 +218,8 @@ do while (error> tol)
       Ax = (/0.,Dxp,Dxm/)
       Ay = (/0.,Dyp,Dym/)
 
-      Dx = max(0.,-M(Nx-1,k)*Dxp,M(Nx-2,k)*Dxm)
-      Dy = max(0.,-M(Nx-1,k+1)*Dyp,M(Nx-1,k-1)*Dym)
+      Dx = max(0.,-M(Nx-1,k)*Dxp,M(Nx-1,k)*Dxm)
+      Dy = max(0.,-M(Nx-1,k+1)*Dyp,M(Nx-1,k)*Dym)
       Ix = maxloc((/0.,-Dxp,Dxm/),dim=1)
       Iy = maxloc((/0.,-Dyp,Dym/),dim=1)
 
