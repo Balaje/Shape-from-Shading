@@ -1,5 +1,5 @@
 load op_neumannf.txt
-N = 400;
+N = 200;
 Z1 = op_neumannf(:,3);
 z2 = reshape(Z1,[N,N]);
 
@@ -17,9 +17,9 @@ set(gca,'color','black')
 set(gcf,'color','white')
 
 set(gca,'visible','on')
-colormap([0.6,0.6,0.6])
+colormap([0.8,0.8,0.8])
 material dull
-light('Position',[0 0 1],'Style','local')
+light('Position',[0 0 10],'Style','local')
 lighting gouraud
-%axis equal tight
-%axis([0,1,0,1,-0.7,-0.4])
+% axis equal tight
+% axis([0,1,0,1,-0.7,-0.4])

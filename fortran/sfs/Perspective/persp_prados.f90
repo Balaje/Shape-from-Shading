@@ -7,7 +7,7 @@
 program persp1
 implicit none
 
-integer, parameter :: Nx = 401, Ny = 401
+integer, parameter :: Nx = 201, Ny = 201
 real(kind = 8), parameter :: a = 0., b = 1., c = 0., d = 2., tol = 1e-9, f = 2.32, pi = acos(-1.)
 real(kind = 8), dimension(Nx-1,Ny-1) :: u, unew, I, exact, M, Q
 real(kind = 8), dimension(Nx-1) :: x

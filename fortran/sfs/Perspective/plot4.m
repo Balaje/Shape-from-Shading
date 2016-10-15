@@ -1,8 +1,8 @@
 %%
 % Script to generate the grayscale image
 
-N = 400;
-A = imread('thing1.png');
+N = 200;
+A = imread('moz.png');
 gray = mat2gray(imresize(A,[N,N]));
 
 GRAY = gray(:,:,1);
